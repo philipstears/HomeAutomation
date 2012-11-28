@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TemperatureLogging", "TemperatureLogging\TemperatureLogging.vbproj", "{B59A642E-5FFF-45A3-ACF7-FE781CDE8C17}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RadiatorController", "RadiatorController\RadiatorController.vbproj", "{2ECED190-7862-4674-9001-16DA37176D42}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B59A642E-5FFF-45A3-ACF7-FE781CDE8C17}.Debug|x86.ActiveCfg = Debug|x86
+		{B59A642E-5FFF-45A3-ACF7-FE781CDE8C17}.Debug|x86.Build.0 = Debug|x86
+		{B59A642E-5FFF-45A3-ACF7-FE781CDE8C17}.Release|x86.ActiveCfg = Release|x86
+		{B59A642E-5FFF-45A3-ACF7-FE781CDE8C17}.Release|x86.Build.0 = Release|x86
+		{2ECED190-7862-4674-9001-16DA37176D42}.Debug|x86.ActiveCfg = Debug|x86
+		{2ECED190-7862-4674-9001-16DA37176D42}.Debug|x86.Build.0 = Debug|x86
+		{2ECED190-7862-4674-9001-16DA37176D42}.Release|x86.ActiveCfg = Release|x86
+		{2ECED190-7862-4674-9001-16DA37176D42}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
