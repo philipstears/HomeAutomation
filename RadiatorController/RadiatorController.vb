@@ -16,7 +16,7 @@ Public Class RadiatorController
 
     Private Sub mTimer_Tick(sender As Object, e As System.EventArgs) Handles mTimer.Tick
         For Each zone In mZones
-            zone.EvaluateTimeAndTemperature()
+            zone.EvaluateTimeAndTemperature(DateTime.UtcNow)
         Next
     End Sub
 End Class
