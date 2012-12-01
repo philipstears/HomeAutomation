@@ -99,6 +99,7 @@
     <Compile Include="RelayOption.vb" />
     <Compile Include="RelayOptionHelper.vb" />
     <Compile Include="RelayStatus.vb" />
+    <Compile Include="Throttle.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">

@@ -28,4 +28,7 @@
     Private Sub ReadStatus_Click(sender As System.Object, e As System.EventArgs) Handles ReadStatus.Click
         MessageBox.Show(controller.GetStatus().ToString())
     End Sub
+
+    Private Sub MainForm_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+    End Sub
 End Class

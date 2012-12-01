@@ -5,7 +5,10 @@ Public Class RelayController
     Private Const MIN_RESPONSE_LENGTH_SET_SINGLE_PORT As Integer = 4
     Private Const MIN_RESPONSE_LENGTH_SET_ALL_PORTS As Integer = 4
     Private Const MIN_RESPONSE_LENGTH_SET_MANY_PORTS As Integer = 4
+    Private Const MIN_COMMAND_DELAY_MS = 5
+
     Private mPort As SerialPort
+    Private mThrottle As New Throttle(TimeSpan.FromMilliseconds(MIN_COMMAND_DELAY_MS))
 
     Public Shared Function Open(ByVal portNumber As Integer) As RelayController
         Return New RelayController(GetPort(portNumber))
@@ -22,6 +25,7 @@ Public Class RelayController
     End Sub
 
     Public Sub SetRelays(ByVal relays As RelayOption, ByVal status As RelayStatus)
+        mThrottle.WaitUntilReady()
 
         ' Set all the relays at once?
         If relays = RelayOption.All Then
@@ -91,6 +95,8 @@ Public Class RelayController
     End Sub
 
     Public Function GetStatus() As RelayOption
+        mThrottle.WaitUntilReady()
+
         mPort.Write("ask//")
 
         ' Read the status bytes
