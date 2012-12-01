@@ -49,13 +49,17 @@ Public Class RelayController
 
     Private Sub SetMultipleRelays(ByVal relays As RelayOption, ByVal status As RelayStatus)
 
-        ' Get the bit pattern that controls which relays to drive
-        Dim relaysNum = DirectCast(relays, Integer)
+        ' Need to get the existing status to start with
+        Dim current = Me.GetStatus()
 
-        If status <> RelayStatus.On Then
-            relaysNum = Not relaysNum
+        ' Combine with the incoming relay status
+        If status = RelayStatus.On Then
+            relays = current Or relays
+        Else
+            relays = current And Not relays
         End If
 
+        ' Get the bit pattern that controls which relays to drive
         Dim relaysBytes = BitConverter.GetBytes(CUShort(relays))
 
         ' The order of bits expected by the relay board is the opposite of what we'd expect, so flip the bytes

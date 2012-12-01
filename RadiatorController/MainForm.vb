@@ -25,6 +25,14 @@
         controller.SetRelays(RelayOption.All, RelayStatus.Off)
     End Sub
 
+    Private Sub FirstAndSecondOn_Click(sender As System.Object, e As System.EventArgs) Handles FirstAndSecondOn.Click
+        controller.SetRelays(RelayOption.Relay0 Or RelayOption.Relay1, RelayStatus.On)
+    End Sub
+
+    Private Sub FirstAndSecondOff_Click(sender As System.Object, e As System.EventArgs) Handles FirstAndSecondOff.Click
+        controller.SetRelays(RelayOption.Relay0 Or RelayOption.Relay1, RelayStatus.Off)
+    End Sub
+
     Private Sub ReadStatus_Click(sender As System.Object, e As System.EventArgs) Handles ReadStatus.Click
         MessageBox.Show(controller.GetStatus().ToString())
     End Sub
