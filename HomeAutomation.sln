@@ -7,7 +7,19 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RadiatorController", "Radia
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RelayController", "RelayController\RelayController.vbproj", "{BF47E992-B494-41CD-9EA5-421936D600DA}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Tests", "Tests\Tests.vbproj", "{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B80175EF-9E9B-438E-A14C-0A48845589D2}"
+	ProjectSection(SolutionItems) = preProject
+		HomeAutomation.vsmdi = HomeAutomation.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = HomeAutomation.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -47,6 +59,16 @@ Global
 		{BF47E992-B494-41CD-9EA5-421936D600DA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BF47E992-B494-41CD-9EA5-421936D600DA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BF47E992-B494-41CD-9EA5-421936D600DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
