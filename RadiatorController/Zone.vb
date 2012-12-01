@@ -12,6 +12,12 @@ Public Class Zone
         mSensor = sensor
     End Sub
 
+    Public ReadOnly Property Settings As TemperatureSettings
+        Get
+            Return mTimes
+        End Get
+    End Property
+
     Public Sub EvaluateTimeAndTemperature(ByVal currentTime As DateTime)
         Dim desiredTemperature = mTimes.GetDesiredTemperature(currentTime)
 
@@ -27,7 +33,7 @@ Public Class Zone
         End If
     End Sub
 
-    Private Function ShouldRadiatorBeOn(ByVal currentlyOn As Boolean, ByVal desiredTemperature As Integer, ByVal currentTemperature As Integer) As Boolean
+    Private Function ShouldRadiatorBeOn(ByVal currentlyOn As Boolean, ByVal desiredTemperature As Double, ByVal currentTemperature As Double) As Boolean
         If currentlyOn Then
 
             Dim switchOffTemperature = desiredTemperature + 1

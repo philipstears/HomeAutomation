@@ -3,23 +3,23 @@ Imports RelayController
 Public Class TemperatureSettings
     Private mSettings As New List(Of TemperatureSetting)()
     Private mLastSetting As TemperatureSetting
-    Private mOverride As Integer?
+    Private mOverride As Double?
 
     Public Sub AddSetting(ByVal setting As TemperatureSetting)
         mSettings.Add(setting)
         mSettings.Sort()
     End Sub
 
-    Public Property Override As Integer?
+    Public Property Override As Double?
         Get
             Return mOverride
         End Get
-        Set(value As Integer?)
+        Set(value As Double?)
             mOverride = value
         End Set
     End Property
 
-    Public Function GetDesiredTemperature(ByVal currentTime As DateTime) As Integer
+    Public Function GetDesiredTemperature(ByVal currentTime As DateTime) As Double
         Dim previousSetting = mLastSetting
         Dim currentSetting = FindCurrentSetting(currentTime)
         mLastSetting = currentSetting

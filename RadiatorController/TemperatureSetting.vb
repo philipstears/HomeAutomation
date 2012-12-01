@@ -5,9 +5,9 @@ Public Class TemperatureSetting
     Implements IComparable(Of TemperatureSetting)
 
     Private mStartTime As DateTime
-    Private mDesiredTemperature As Integer
+    Private mDesiredTemperature As Double
 
-    Public Sub New(ByVal startTime As DateTime, ByVal desiredTemperature As Integer)
+    Public Sub New(ByVal startTime As DateTime, ByVal desiredTemperature As Double)
         mStartTime = startTime
         mDesiredTemperature = desiredTemperature
     End Sub
@@ -18,7 +18,7 @@ Public Class TemperatureSetting
         End Get
     End Property
 
-    Public ReadOnly Property DesiredTemperature As Integer
+    Public ReadOnly Property DesiredTemperature As Double
         Get
             Return mDesiredTemperature
         End Get
