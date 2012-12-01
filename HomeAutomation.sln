@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RadiatorInteractiveTest", "RadiatorInteractiveTest\RadiatorInteractiveTest.vbproj", "{DC777543-604D-4BA7-93A5-D414A38A6ECA}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = HomeAutomation.vsmdi
@@ -69,6 +71,16 @@ Global
 		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3E7799BC-C9FD-4BC8-A5BA-F19A7EC6B17B}.Release|x86.ActiveCfg = Release|Any CPU
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Debug|x86.ActiveCfg = Debug|x86
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Debug|x86.Build.0 = Debug|x86
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Release|Any CPU.ActiveCfg = Release|x86
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Release|x86.ActiveCfg = Release|x86
+		{DC777543-604D-4BA7-93A5-D414A38A6ECA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
