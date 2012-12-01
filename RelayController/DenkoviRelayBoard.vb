@@ -1,7 +1,8 @@
 ﻿Imports System.IO.Ports
 Imports System.Threading
+Imports RelayController.Support
 
-Public Class RelayController
+Public Class DenkoviRelayBoard
     Private Const MIN_RESPONSE_LENGTH_SET_SINGLE_PORT As Integer = 4
     Private Const MIN_RESPONSE_LENGTH_SET_ALL_PORTS As Integer = 4
     Private Const MIN_RESPONSE_LENGTH_SET_MANY_PORTS As Integer = 4
@@ -10,8 +11,8 @@ Public Class RelayController
     Private mPort As SerialPort
     Private mThrottle As New Throttle(TimeSpan.FromMilliseconds(MIN_COMMAND_DELAY_MS))
 
-    Public Shared Function Open(ByVal portNumber As Integer) As RelayController
-        Return New RelayController(GetPort(portNumber))
+    Public Shared Function Open(ByVal portNumber As Integer) As DenkoviRelayBoard
+        Return New DenkoviRelayBoard(GetPort(portNumber))
     End Function
 
     Private Shared Function GetPort(ByVal portNumber As Integer) As SerialPort

@@ -1,5 +1,7 @@
-﻿Public Class MainForm
-    Dim controller As RelayController = RelayController.Open(5)
+﻿Imports RelayController
+
+Public Class RelayControllerForm
+    Dim controller As DenkoviRelayBoard = DenkoviRelayBoard.Open(5)
 
     Private Sub FirstOn_Click(sender As System.Object, e As System.EventArgs) Handles FirstOn.Click
         controller.SetRelays(RelayOption.Relay0, RelayStatus.On)
