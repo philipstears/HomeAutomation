@@ -2,18 +2,18 @@ Imports RelayController
 
 Public Class Zone
     Private mName As String
-    Private mRadiator As DenkoviRadiator
-    Private mSensor As TemperatureSensor
+    Private mRadiator As IRadiator
+    Private mSensor As ITemperatureSensor
     Private mTimes As New TemperatureSettings()
 
-    Sub New(name As String, radiator As DenkoviRadiator, sensor As TemperatureSensor)
+    Sub New(name As String, radiator As IRadiator, sensor As ITemperatureSensor)
         mName = name
         mRadiator = radiator
         mSensor = sensor
     End Sub
 
-    Public Sub EvaluateTimeAndTemperature()
-        Dim desiredTemperature = mTimes.GetDesiredTemperature(DateTime.UtcNow)
+    Public Sub EvaluateTimeAndTemperature(ByVal currentTime As DateTime)
+        Dim desiredTemperature = mTimes.GetDesiredTemperature(currentTime)
 
         If desiredTemperature = 0 Then
             mRadiator.EnsureOff()

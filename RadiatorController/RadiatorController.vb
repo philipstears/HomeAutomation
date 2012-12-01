@@ -6,17 +6,17 @@ Public Class RadiatorController
         .Enabled = True
     }
 
-    Private mRadiators As New List(Of Zone)()
+    Private mZones As New List(Of Zone)()
 
     Public Function AddZone(ByVal name As String, radiator As IRadiator, ByVal sensor As ITemperatureSensor) As Zone
         Dim zone As New Zone(name, radiator, sensor)
-        mRadiators.Add(zone)
+        mZones.Add(zone)
         Return zone
     End Function
 
     Private Sub mTimer_Tick(sender As Object, e As System.EventArgs) Handles mTimer.Tick
-        For Each radiator In mRadiators
-            radiator.EvaluateTimeAndTemperature()
+        For Each zone In mZones
+            zone.EvaluateTimeAndTemperature()
         Next
     End Sub
 End Class
