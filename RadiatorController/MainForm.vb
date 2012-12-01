@@ -24,4 +24,8 @@
     Private Sub AllOff_Click(sender As System.Object, e As System.EventArgs) Handles AllOff.Click
         controller.SetRelays(RelayOption.All, RelayStatus.Off)
     End Sub
+
+    Private Sub ReadStatus_Click(sender As System.Object, e As System.EventArgs) Handles ReadStatus.Click
+        MessageBox.Show(controller.GetStatus().ToString())
+    End Sub
 End Class

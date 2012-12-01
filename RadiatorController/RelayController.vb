@@ -54,6 +54,10 @@ Public Class RelayController
 
         Dim relaysBytes = BitConverter.GetBytes(CUShort(relays))
 
+        ' The order of bits expected by the relay board is the opposite of what we'd expect, so flip the bytes
+        relaysBytes(0) = BitHelper.Flip(relaysBytes(0))
+        relaysBytes(1) = BitHelper.Flip(relaysBytes(1))
+
         ' Write the command to flip the states
         mPort.Write("x")
         mPort.Write(relaysBytes, 0, 2)
@@ -89,8 +93,13 @@ Public Class RelayController
     Public Function GetStatus() As RelayOption
         mPort.Write("ask//")
 
-        'Reading
+        ' Read the status bytes
         Dim data = ReadResponse(2)
+
+        ' The order of bits expected by the relay board is the opposite of what we'd expect, so flip the bytes
+        data(0) = BitHelper.Flip(data(0))
+        data(1) = BitHelper.Flip(data(1))
+
         Return DirectCast(CInt(BitConverter.ToUInt16(data, 0)), RelayOption)
     End Function
 

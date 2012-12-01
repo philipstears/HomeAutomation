@@ -29,6 +29,7 @@ Partial Class MainForm
         Me.AllOn = New System.Windows.Forms.Button()
         Me.AllOff = New System.Windows.Forms.Button()
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.ReadStatus = New System.Windows.Forms.Button()
         Me.FlowLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -94,10 +95,20 @@ Partial Class MainForm
         Me.FlowLayoutPanel1.Controls.Add(Me.SecondOff)
         Me.FlowLayoutPanel1.Controls.Add(Me.AllOn)
         Me.FlowLayoutPanel1.Controls.Add(Me.AllOff)
+        Me.FlowLayoutPanel1.Controls.Add(Me.ReadStatus)
         Me.FlowLayoutPanel1.Location = New System.Drawing.Point(237, 66)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
         Me.FlowLayoutPanel1.Size = New System.Drawing.Size(392, 234)
         Me.FlowLayoutPanel1.TabIndex = 6
+        '
+        'ReadStatus
+        '
+        Me.ReadStatus.Location = New System.Drawing.Point(165, 32)
+        Me.ReadStatus.Name = "ReadStatus"
+        Me.ReadStatus.Size = New System.Drawing.Size(75, 23)
+        Me.ReadStatus.TabIndex = 6
+        Me.ReadStatus.Text = "Read Status"
+        Me.ReadStatus.UseVisualStyleBackColor = True
         '
         'MainForm
         '
@@ -118,5 +129,6 @@ Partial Class MainForm
     Friend WithEvents AllOn As System.Windows.Forms.Button
     Friend WithEvents AllOff As System.Windows.Forms.Button
     Friend WithEvents FlowLayoutPanel1 As System.Windows.Forms.FlowLayoutPanel
+    Friend WithEvents ReadStatus As System.Windows.Forms.Button
 
 End Class
