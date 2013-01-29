@@ -1,4 +1,6 @@
-﻿Public Class Program
+﻿Imports TemperatureDataCore
+
+Public Class Program
     Public Shared Sub Main()
         Dim connectionString = My.Settings.Database
         Dim temperatureTableName = My.Settings.TemperatureTable

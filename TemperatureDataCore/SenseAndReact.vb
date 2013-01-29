@@ -1,5 +1,4 @@
 ﻿Imports System.Data.SqlClient
-Imports TemperatureLogging.Devices
 Imports RadiatorController
 
 Public Class SenseAndReact

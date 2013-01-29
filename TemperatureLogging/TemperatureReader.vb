@@ -1,4 +1,6 @@
-﻿Public Class TemperatureReader
+﻿Imports TemperatureDataCore
+
+Public Class TemperatureReader
     Private ReadOnly NoPeriodicSignalling As TimeSpan = TimeSpan.FromMilliseconds(-1)
     Private ReadOnly Every15Seconds As TimeSpan = TimeSpan.FromSeconds(15)
 

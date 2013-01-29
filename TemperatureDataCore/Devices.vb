@@ -1,5 +1,12 @@
 ﻿Imports System.Data.SqlClient
 
+Public Structure DeviceDetail
+    Public Location As String
+    Public Relay As Integer
+    Public DeviceID As Integer
+    Public ControlLocation As Boolean
+End Structure
+
 Public Class Devices
 
     Private mConnectionString As String
@@ -112,13 +119,5 @@ Public Class Devices
         Next
 
     End Sub
-
-    Public Structure DeviceDetail
-        Public Location As String
-        Public Relay As Integer
-        Public DeviceID As Integer
-        Public ControlLocation As Boolean
-    End Structure
-
 End Class
 

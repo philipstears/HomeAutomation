@@ -1,5 +1,5 @@
 ﻿Imports System.Windows.Forms.DataVisualization.Charting
-Imports TemperatureLogging.Devices
+Imports TemperatureDataCore
 
 Public Class MainForm
 
