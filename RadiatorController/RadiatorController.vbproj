@@ -77,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DenkoviRadiatorManager.vb" />
+    <Compile Include="FakeRadiator.vb" />
+    <Compile Include="FakeSensor.vb" />
     <Compile Include="IRadiator.vb" />
     <Compile Include="ITemperatureSensor.vb" />
     <Compile Include="KnownSensors.vb" />

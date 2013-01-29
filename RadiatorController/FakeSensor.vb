@@ -1,5 +1,9 @@
 Imports RadiatorController
 
+''' <summary>
+''' Provides a fake implementation of a temperature sensor.
+''' </summary>
+''' <remarks></remarks>
 Public Class FakeSensor
     Implements ITemperatureSensor
 
@@ -12,7 +16,7 @@ Public Class FakeSensor
         mReading = newReading
     End Sub
 
-    Public ReadOnly Property Reading As Double Implements RadiatorController.ITemperatureSensor.Reading
+    Public ReadOnly Property Reading As Double Implements ITemperatureSensor.Reading
         Get
             Return mReading
         End Get
