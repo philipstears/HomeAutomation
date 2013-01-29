@@ -1,9 +1,14 @@
 ﻿Public Class TemperatureReader
+    Private ReadOnly NoPeriodicSignalling As TimeSpan = TimeSpan.FromMilliseconds(-1)
+    Private ReadOnly Every15Seconds As TimeSpan = TimeSpan.FromSeconds(15)
+
     Public Event ReadingObserved As EventHandler(Of TemperatureDataReceivedEventArgs)
 
     Private ReadOnly mBaseDate As New DateTime(1899, 12, 30, 0, 0, 0, 0, DateTimeKind.Utc)
+
     Private mTemp As New TemperatureServerLib.TempMeterServer()
-    Private mTimer As New Threading.Timer(AddressOf DoRead, Nothing, 0, 15 * 1000)
+    Private mTimer As New Threading.Timer(AddressOf DoRead, Nothing, Every15Seconds, NoPeriodicSignalling)
+
     ' we are making the assumption now that if a sensor has been unavailable, or the program is off, then we will go back and collect the last 24 hours of data.
     Private mLastReading As DateTime = DateTime.UtcNow - New TimeSpan(1, 0, 0, 0)
 
@@ -54,5 +59,7 @@
 
             RaiseEvent ReadingObserved(Me, New TemperatureDataReceivedEventArgs(device.idDevice, device.Name, logDate, DateTime.UtcNow, value))
         Next
+
+        mTimer.Change(Every15Seconds, NoPeriodicSignalling)
     End Sub
 End Class
