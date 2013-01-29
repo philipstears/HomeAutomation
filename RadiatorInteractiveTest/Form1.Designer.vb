@@ -225,7 +225,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1126, 575)
+        Me.ClientSize = New System.Drawing.Size(944, 575)
         Me.Controls.Add(Me.TimeLabel)
         Me.Controls.Add(Me.TimeTrack)
         Me.Controls.Add(Me.Label8)

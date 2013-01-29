@@ -1,9 +1,17 @@
 ﻿Imports RadiatorController
+Imports RelayController
 
 Public Class Form1
     Dim sensor0 As New FakeSensor()
     Dim radiator0 As New FakeRadiator()
+    Dim radiator1 As New FakeRadiator()
     Dim ready As Boolean = False
+
+    Dim mRelayBoard As DenkoviRelayBoard = DenkoviRelayBoard.Open(5)
+    Dim radiatorManager As New DenkoviRadiatorManager(mRelayBoard)
+    Dim realRadiator0 = radiatorManager.GetRadiator(RelayOption.Relay0)
+    Dim realRadiator1 = radiatorManager.GetRadiator(RelayOption.Relay1)
+
 
     Public Sub New()
 
@@ -38,18 +46,25 @@ Public Class Form1
             Return
         End If
 
-        Dim zone0 As New Zone("The Zone", radiator0, sensor0)
+        Dim zone0 As New Zone("The Zone", realRadiator0, sensor0)
+        Dim zone1 As New Zone("The Zone 2", realRadiator1, sensor0)
 
         zone0.Settings.AddSetting(New TemperatureSetting(#1:00:00 AM#, Double.Parse(txtDesiredTemp0.Text)))
         zone0.Settings.AddSetting(New TemperatureSetting(#6:00:00 AM#, Double.Parse(txtDesiredTemp1.Text)))
         zone0.Settings.AddSetting(New TemperatureSetting(#1:00:00 PM#, Double.Parse(txtDesiredTemp2.Text)))
         zone0.Settings.AddSetting(New TemperatureSetting(#10:00:00 PM#, Double.Parse(txtDesiredTemp3.Text)))
 
+        zone1.Settings.AddSetting(New TemperatureSetting(#1:00:00 AM#, Double.Parse(txtDesiredTemp0.Text)))
+        zone1.Settings.AddSetting(New TemperatureSetting(#6:00:00 AM#, Double.Parse(txtDesiredTemp1.Text)))
+        zone1.Settings.AddSetting(New TemperatureSetting(#1:00:00 PM#, Double.Parse(txtDesiredTemp2.Text)))
+        zone1.Settings.AddSetting(New TemperatureSetting(#10:00:00 PM#, Double.Parse(txtDesiredTemp3.Text)))
+
         sensor0.SetReading(numCurrentTemp0.Value)
 
         zone0.EvaluateTimeAndTemperature(GetTime())
+        zone1.EvaluateTimeAndTemperature(GetTime())
 
-        SetStatus0(radiator0.IsOn)
+        SetStatus0(realRadiator0.IsOn)
     End Sub
 
     Private Function GetTime() As DateTime

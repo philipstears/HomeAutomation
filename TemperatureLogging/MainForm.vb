@@ -1,71 +1,89 @@
-﻿Public Class MainForm
+﻿Imports System.Windows.Forms.DataVisualization.Charting
+Imports TemperatureLogging.Devices
 
-    Dim WithEvents ts As TemperatureServerLib.TempMeterServer ' = New TemperatureServerLib.TempMeterServer  ' get instance of the temperatureserver
+Public Class MainForm
 
+    Private mConnectionString As String
+    Private mTemperatureTableName As String
+    Private mDeviceTableName As String
+    Private mTemperatureAgregator As TemperatureAggregater
+
+    Private mDeviceLatest As New Dictionary(Of Integer, DateTime)
+
+    Private mDeviceList As New Dictionary(Of Integer, DeviceDetail)
+
+    Private mRequiredTemperatures As SenseAndReact
+
+    Public Sub New(connectionString As String, temperatureTableName As String, deviceTableName As String, devices As Devices, requiredTemperatures As SenseAndReact)
+
+        mConnectionString = connectionString
+        mDeviceTableName = deviceTableName
+        mTemperatureTableName = temperatureTableName
+
+        InitializeComponent()
+
+        mDeviceList = devices.DeviceListing
+
+        mRequiredTemperatures = requiredTemperatures
+
+        mTemperatureAgregator = New TemperatureAggregater(mConnectionString, mTemperatureTableName, mDeviceTableName)
+
+    End Sub
 
     Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
 
-        ' ts = New TemperatureServerLib.TempMeterServer
+        Dim mCurrentTemperatures As Dictionary(Of Integer, Double) = mTemperatureAgregator.GetDeviceTemperatures()
 
-        ' Enumerate()
+        Dim requiredTemps As Dictionary(Of Integer, Double)
 
-        ' AddHandler ts.OnMeasurement, AddressOf ts_OnMeasurement                 ' Connect our event handler  
+        Label1.Text = ""
 
-    End Sub
+        requiredTemps = mRequiredTemperatures.GetDeviceExpectedTemperatures
 
-    Public Sub Enumerate()
+        Chart1.Series.Item(0).Points.Clear()
 
-        Dim devs As TemperatureServerLib.DeviceInfoCollection
-        Dim devinfo As TemperatureServerLib.DeviceInfo
-        Dim i As Integer
+        Dim bar As Integer = 1
 
-        devs = ts.GetDevices                ' get the collection of devices
-        For i = 1 To devs.Count             ' loop thru the collection 
-            devinfo = devs(i)               ' get next device info
+        For Each tempPair In mCurrentTemperatures
 
-            Dim startDate As Date = Date.Now.Subtract(TimeSpan.FromDays(1))
-            Dim endDate As Date = Date.Now
+            Dim currentTemp As New DataPoint
 
-            Dim dates As Double() = Nothing
-            Dim values As Single() = Nothing
+            Dim Devicedata As DeviceDetail = Nothing
 
-            Debug.Print("{0} ({1}, {2})", devinfo.Name, devinfo.GetUniqueID(), devinfo.idDevice)       ' use the information
+            If mDeviceList.TryGetValue(tempPair.Key, Devicedata) Then
+                currentTemp.AxisLabel = Devicedata.Location
+            Else
+                currentTemp.AxisLabel = tempPair.Key
+            End If
 
-            devinfo.GetLogRange(startDate, endDate)
+            currentTemp.SetValueXY(bar, tempPair.Value)
 
-            devinfo.GetLog(startDate, endDate, Nothing, dates, values)
+            Chart1.Series.Item(0).Points.Add(currentTemp)
 
-            Dim J As Integer
+            bar = bar + 1
 
-            For J = 0 To dates.Length - 1
+            Dim desiredTemp As New DataPoint
 
-                Debug.Print(Date.FromOADate(dates(J)).ToString & " - " & values(J))
-            Next
+            Dim desiredTemperature As Double = 0
 
+            If requiredTemps.TryGetValue(tempPair.Key, desiredTemperature) Then
 
 
+            End If
 
+            desiredTemp.SetValueXY(bar, desiredTemperature)
+            desiredTemp.AxisLabel = "Desired"
+
+            desiredTemp.Color = Color.Red
+
+            Chart1.Series.Item(0).Points.Add(desiredTemp)
+
+            bar = bar + 1
+
+            Dim shouldBeOn As Boolean = desiredTemperature > tempPair.Value
+
+            Label1.Text = Label1.Text & vbCrLf & Devicedata.Location & " (Current=" & Format(tempPair.Value, "0.0") & " : Desired=" & desiredTemperature & ") Switch " & IIf(shouldBeOn, "On", "Off")
 
         Next
-    End Sub
-
-    Private Sub ts_OnDatasetUpdated(idDevice As UInteger, typeDevice As UInteger) Handles ts.OnDatasetUpdated
-
-    End Sub
-
-    Private Sub ts_OnDeviceRemoved(idDevice As UInteger, typeDevice As UInteger) Handles ts.OnDeviceRemoved
-
-    End Sub
-
-    Private Sub ts_OnError(strErr As String) Handles ts.OnError
-
-    End Sub
-
-    Private Sub ts_OnMeasurement(type As UInteger, v As Object) Handles ts.OnMeasurement
-        Dim s As String
-        s = type.ToString() + " " + v(0).ToString() + " " + v(1).ToString() + " " + v(2).ToString()
-        Debug.Print(s)
-
-
     End Sub
 End Class

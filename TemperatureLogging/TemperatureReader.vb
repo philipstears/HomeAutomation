@@ -4,9 +4,14 @@
     Private ReadOnly mBaseDate As New DateTime(1899, 12, 30, 0, 0, 0, 0, DateTimeKind.Utc)
     Private mTemp As New TemperatureServerLib.TempMeterServer()
     Private mTimer As New Threading.Timer(AddressOf DoRead, Nothing, 0, 15 * 1000)
-    Private mLastReading As DateTime = DateTime.MinValue
+    ' we are making the assumption now that if a sensor has been unavailable, or the program is off, then we will go back and collect the last 24 hours of data.
+    Private mLastReading As DateTime = DateTime.UtcNow - New TimeSpan(1, 0, 0, 0)
 
-    Public Sub New()
+    Private mDeviceLatest As Dictionary(Of Integer, DateTime)
+
+    Public Sub New(devices As Devices)
+
+        mDeviceLatest = devices.Devicelatest
 
     End Sub
 
@@ -15,10 +20,23 @@
         Dim endDate As DateTime = DateTime.UtcNow
 
         For Each device As TemperatureServerLib.DeviceInfo In mTemp.GetDevices()
-            DoReadDevice(device, startDate, endDate)
+
+            If mDeviceLatest.ContainsKey(device.idDevice) Then
+
+                Dim deviceStart As DateTime
+
+                If Not mDeviceLatest.TryGetValue(device.idDevice, deviceStart) Then
+
+                    deviceStart = startDate
+                End If
+
+                DoReadDevice(device, deviceStart, endDate)
+
+                mDeviceLatest(device.idDevice) = endDate
+            End If
         Next
 
-        mLastReading = DateTime.UtcNow
+        mLastReading = startDate
     End Sub
 
     Private Sub DoReadDevice(ByVal device As TemperatureServerLib.DeviceInfo, ByVal startDate As DateTime, ByVal endDate As DateTime)
