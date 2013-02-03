@@ -91,10 +91,17 @@ Public Class MainForm
         Next
     End Sub
 
+    Private Const MAX_ENTRIES As Integer = 5000
+    Private Const MAX_ENTRY_INDEX As Integer = MAX_ENTRIES - 1
+
     Public Sub AddEntry(format As String, ParamArray args() As Object) Implements ILog.AddEntry
         If Me.InvokeRequired Then
             Me.Invoke(Sub() AddEntry(format, args))
             Return
+        End If
+
+        If Me.EventList.Items.Count = MAX_ENTRIES Then
+            Me.EventList.Items.RemoveAt(MAX_ENTRY_INDEX)
         End If
 
         Dim description = String.Format(format, args)
