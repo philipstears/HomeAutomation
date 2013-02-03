@@ -1,24 +1,21 @@
 ﻿Imports System.Data.SqlClient
 
 Public Class TemperatureAggregater
-
     Private mConnectionString As String
     Private mTemperatureTableName As String
     Private mDeviceTableName As String
 
 
     Public Sub New(connectionString As String, temperatureTableName As String, deviceTableName As String)
-
         mConnectionString = connectionString
         mDeviceTableName = deviceTableName
         mTemperatureTableName = temperatureTableName
-
     End Sub
 
-    Public Function GetDeviceTemperatures() As Dictionary(Of Integer, Double)
+    Public Function GetDeviceTemperatures() As Dictionary(Of Integer, DeviceAndTemperature)
 
-        Dim mCurrentTemperatures As New Dictionary(Of Integer, Double)
-        Dim IgnoreBeforeDate As DateTime = DateTime.UtcNow - New TimeSpan(0, 1, 0, 0)
+        Dim currentTemperatures As New Dictionary(Of Integer, DeviceAndTemperature)
+        Dim ignoreBeforeDate As DateTime = DateTime.UtcNow - New TimeSpan(0, 1, 0, 0)
 
         Dim deviceList As New Dictionary(Of Integer, Boolean)
 
@@ -64,7 +61,7 @@ Public Class TemperatureAggregater
                                 Dim readingTime As DateTime = reader.GetDateTime(0)
 
                                 ' check if the reading is within our data range
-                                If readingTime > IgnoreBeforeDate Then
+                                If readingTime > ignoreBeforeDate Then
 
                                     ' we need to add it to the list
                                     tempData.AddData(readNode, reader.GetDecimal(1))
@@ -90,7 +87,7 @@ Public Class TemperatureAggregater
                     controlTemperatureSum = controlTemperatureSum + deviceTemperature
                 End If
 
-                mCurrentTemperatures.Add(currentdevice.Key, tempData.Temperature)
+                currentTemperatures.Add(currentdevice.Key, New DeviceAndTemperature(currentdevice.Key, tempData.Temperature))
 
                 ' based on the data we have received
 
@@ -100,16 +97,15 @@ Public Class TemperatureAggregater
 
         Dim averageControlTemperature As Double = controlTemperatureSum / controlCount
 
-        For Each listedDevice In mCurrentTemperatures
+        For Each listedDevice In currentTemperatures.Values
 
-            If listedDevice.Value = -1000 Then
-                mCurrentTemperatures(listedDevice.Key) = averageControlTemperature
+            If listedDevice.Temperature = -1000 Then
+                listedDevice.Temperature = averageControlTemperature
             End If
 
         Next
 
-        Return mCurrentTemperatures
+        Return currentTemperatures
 
     End Function
-
 End Class

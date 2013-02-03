@@ -32,7 +32,7 @@ Public Class MainForm
 
     Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
 
-        Dim mCurrentTemperatures As Dictionary(Of Integer, Double) = mTemperatureAgregator.GetDeviceTemperatures()
+        Dim currentTemperatures = mTemperatureAgregator.GetDeviceTemperatures()
 
         Dim requiredTemps As Dictionary(Of Integer, Double)
 
@@ -44,19 +44,19 @@ Public Class MainForm
 
         Dim bar As Integer = 1
 
-        For Each tempPair In mCurrentTemperatures
+        For Each tempPair In currentTemperatures.Values
 
             Dim currentTemp As New DataPoint
 
             Dim Devicedata As DeviceDetail = Nothing
 
-            If mDeviceList.TryGetValue(tempPair.Key, Devicedata) Then
+            If mDeviceList.TryGetValue(tempPair.DeviceId, Devicedata) Then
                 currentTemp.AxisLabel = Devicedata.Location
             Else
-                currentTemp.AxisLabel = tempPair.Key
+                currentTemp.AxisLabel = tempPair.DeviceId
             End If
 
-            currentTemp.SetValueXY(bar, tempPair.Value)
+            currentTemp.SetValueXY(bar, tempPair.Temperature)
 
             Chart1.Series.Item(0).Points.Add(currentTemp)
 
@@ -66,7 +66,7 @@ Public Class MainForm
 
             Dim desiredTemperature As Double = 0
 
-            If requiredTemps.TryGetValue(tempPair.Key, desiredTemperature) Then
+            If requiredTemps.TryGetValue(tempPair.DeviceId, desiredTemperature) Then
 
 
             End If
@@ -80,9 +80,9 @@ Public Class MainForm
 
             bar = bar + 1
 
-            Dim shouldBeOn As Boolean = desiredTemperature > tempPair.Value
+            Dim shouldBeOn As Boolean = desiredTemperature > tempPair.Temperature
 
-            Label1.Text = Label1.Text & vbCrLf & Devicedata.Location & " (Current=" & Format(tempPair.Value, "0.0") & " : Desired=" & desiredTemperature & ") Switch " & IIf(shouldBeOn, "On", "Off")
+            Label1.Text = Label1.Text & vbCrLf & Devicedata.Location & " (Current=" & Format(tempPair.Temperature, "0.0") & " : Desired=" & desiredTemperature & ") Switch " & IIf(shouldBeOn, "On", "Off")
 
         Next
     End Sub

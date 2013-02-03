@@ -73,6 +73,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceAndTemperature.vb" />
     <Compile Include="MainForm.vb">
       <SubType>Form</SubType>
     </Compile>
