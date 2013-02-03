@@ -25,9 +25,7 @@ Public Class SenseAndReact
     End Function
 
     Public Function GetDeviceExpectedTemperatures(ByVal forWhen As DateTime) As Dictionary(Of Integer, Double)
-
-        ' NOTE: Should be using current time-zone for this, not UTC
-        Dim dayName As String = DateTime.Now.DayOfWeek.ToString()
+        Dim dayName As String = DateTime.UtcNow.DayOfWeek.ToString()
         Dim deviceTemperature As New Dictionary(Of Integer, Double)
 
         Using connection = New SqlConnection(mConnectionString)
