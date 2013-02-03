@@ -1,5 +1,6 @@
 ﻿Imports TemperatureDataCore
 Imports RelayController
+Imports RadiatorController
 
 Public Class SensorAndRelayModel
     Private mLocation As String
@@ -61,6 +62,7 @@ Public Class SensorAndRelayModel
         Set(value As Double?)
             mCurrentTemperature = value
             RaiseEvent CurrentTemperatureChanged(Me, EventArgs.Empty)
+            UpdateDesiredRelayStatus()
         End Set
     End Property
 
@@ -71,8 +73,23 @@ Public Class SensorAndRelayModel
         Set(value As Double?)
             mDesiredTemperature = value
             RaiseEvent DesiredTemperatureChanged(Me, EventArgs.Empty)
+            UpdateDesiredRelayStatus()
         End Set
     End Property
+
+    Private Sub UpdateDesiredRelayStatus()
+        If Not CurrentTemperature.HasValue OrElse Not DesiredTemperature.HasValue Then
+            SetDesiredRelayStatus(Nothing)
+            Return
+        End If
+
+        ' Assume it's on if not known
+        Dim currentlyOn = If(CurrentRelayStatus, True)
+
+        ' Set the desired status
+        Dim desiredStatus = DecisionHelper.ShouldRadiatorBeOn(currentlyOn, DesiredTemperature, CurrentTemperature)
+        SetDesiredRelayStatus(desiredStatus)
+    End Sub
 
     Public Property CurrentRelayStatus As RelayStatus?
         Get
@@ -81,16 +98,18 @@ Public Class SensorAndRelayModel
         Set(value As RelayStatus?)
             mCurrentRelayStatus = value
             RaiseEvent CurrentRelayStatusChanged(Me, EventArgs.Empty)
+            UpdateDesiredRelayStatus()
         End Set
     End Property
 
-    Public Property DesiredRelayStatus As RelayStatus?
+    Public ReadOnly Property DesiredRelayStatus As RelayStatus?
         Get
             Return mDesiredRelayStatus
         End Get
-        Set(value As RelayStatus?)
-            mDesiredRelayStatus = value
-            RaiseEvent DesiredTemperatureChanged(Me, EventArgs.Empty)
-        End Set
     End Property
+
+    Private Sub SetDesiredRelayStatus(ByVal value As RelayStatus?)
+        mDesiredRelayStatus = value
+        RaiseEvent DesiredRelayStatusChanged(Me, EventArgs.Empty)
+    End Sub
 End Class

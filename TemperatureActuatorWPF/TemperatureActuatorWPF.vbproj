@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\NullableRelayStatusConverter.vb" />
     <Compile Include="Models\ActuatorModel.vb" />
     <Compile Include="Converters\NullableTemperatureConverter.vb" />
     <Compile Include="Models\SensorAndRelayModel.vb" />

@@ -75,6 +75,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DecisionHelper.vb" />
     <Compile Include="DenkoviRadiatorManager.vb" />
     <Compile Include="FakeRadiator.vb" />
     <Compile Include="FakeSensor.vb" />

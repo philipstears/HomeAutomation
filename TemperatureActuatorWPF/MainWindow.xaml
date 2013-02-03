@@ -7,6 +7,7 @@
         <ListView ItemsSource="{Binding Devices}" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}">
             <ListView.Resources>
                 <this:NullableTemperatureConverter x:Key="NullableTemperatureConverter" />
+                <this:NullableRelayStatusConverter x:Key="NullableRelayStatusConverter" />
             </ListView.Resources>
             <ListView.View>
                 <GridView>
@@ -16,8 +17,8 @@
                         <GridViewColumn Width="80" DisplayMemberBinding="{Binding RelayIndex}">Relay #</GridViewColumn>
                         <GridViewColumn Width="120" DisplayMemberBinding="{Binding CurrentTemperature, Converter={StaticResource NullableTemperatureConverter}}">Current Temperature</GridViewColumn>
                         <GridViewColumn Width="120" DisplayMemberBinding="{Binding DesiredTemperature, Converter={StaticResource NullableTemperatureConverter}}">Desired Temperature</GridViewColumn>
-                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding CurrentRelayStatus}">Current Relay Status</GridViewColumn>
-                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding DesiredRelayStatus}">Desired Relay Status</GridViewColumn>
+                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding CurrentRelayStatus, Converter={StaticResource NullableRelayStatusConverter}}">Current Relay Status</GridViewColumn>
+                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding DesiredRelayStatus, Converter={StaticResource NullableRelayStatusConverter}}">Desired Relay Status</GridViewColumn>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
