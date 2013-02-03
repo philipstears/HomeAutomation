@@ -29,7 +29,11 @@ Public Class SensorAndRelayModel
         mIsControlled = details.ControlLocation
 
         mRadiator = radiator
-        mCurrentRelayStatus = If(radiator.IsOn, RelayStatus.On, RelayStatus.Off)
+        LoadRadiatorStatus()
+    End Sub
+
+    Private Sub LoadRadiatorStatus()
+        mCurrentRelayStatus = If(mRadiator.IsOn, RelayStatus.On, RelayStatus.Off)
     End Sub
 
     Public ReadOnly Property Location As String
@@ -116,5 +120,9 @@ Public Class SensorAndRelayModel
     Private Sub SetDesiredRelayStatus(ByVal value As RelayStatus?)
         mDesiredRelayStatus = value
         RaiseEvent DesiredRelayStatusChanged(Me, EventArgs.Empty)
+    End Sub
+
+    Private Sub mRadiator_IsOnChanged(sender As Object, e As EventArgs) Handles mRadiator.IsOnChanged
+        LoadRadiatorStatus()
     End Sub
 End Class
