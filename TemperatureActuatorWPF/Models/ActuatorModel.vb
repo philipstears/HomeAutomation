@@ -35,6 +35,7 @@ Public Class ActuatorModel
     Public Sub Refresh()
         UpdateDesiredReadings()
         UpdateActualReadings()
+        ApplyRadiatorSettings()
     End Sub
 
     Private Sub QueueNextUpdate()
@@ -70,6 +71,15 @@ Public Class ActuatorModel
             End If
 
             model.DesiredTemperature = reading.Value
+        Next
+    End Sub
+
+    Private Sub ApplyRadiatorSettings()
+        For Each device In mDevicesForBinding
+            If device.DesiredRelayStatus.HasValue AndAlso device.DesiredRelayStatus <> device.CurrentRelayStatus Then
+                Dim shouldBeOn = device.DesiredRelayStatus.Value = RelayController.RelayStatus.On
+                device.Radiator.EnsureOn()
+            End If
         Next
     End Sub
 End Class

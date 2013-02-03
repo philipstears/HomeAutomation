@@ -36,6 +36,12 @@ Public Class SensorAndRelayModel
         mCurrentRelayStatus = If(mRadiator.IsOn, RelayStatus.On, RelayStatus.Off)
     End Sub
 
+    Public ReadOnly Property Radiator As IRadiator
+        Get
+            Return mRadiator
+        End Get
+    End Property
+
     Public ReadOnly Property Location As String
         Get
             Return mLocation
@@ -93,11 +99,11 @@ Public Class SensorAndRelayModel
         End If
 
         ' Assume it's on if not known
-        Dim currentlyOn = If(CurrentRelayStatus, True)
+        Dim currentlyOn = If(CurrentRelayStatus, RelayStatus.On) = RelayStatus.On
 
         ' Set the desired status
-        Dim desiredStatus = DecisionHelper.ShouldRadiatorBeOn(currentlyOn, DesiredTemperature, CurrentTemperature)
-        SetDesiredRelayStatus(desiredStatus)
+        Dim desiredStatus = DecisionHelper.ShouldRadiatorBeOn(currentlyOn, DesiredTemperature.Value, CurrentTemperature.Value)
+        SetDesiredRelayStatus(If(desiredStatus, RelayStatus.On, RelayStatus.Off))
     End Sub
 
     Public Property CurrentRelayStatus As RelayStatus?

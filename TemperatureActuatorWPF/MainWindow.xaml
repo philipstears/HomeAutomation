@@ -28,6 +28,10 @@
                         <DataTrigger Binding="{Binding IsControlled}" Value="false">
                             <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding DesiredRelayStatus}" Value="On">
+                            <Setter Property="Control.Foreground" Value="DarkGreen" />
+                            <Setter Property="TextElement.FontWeight" Value="Bold" />
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
