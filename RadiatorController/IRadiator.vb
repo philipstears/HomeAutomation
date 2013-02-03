@@ -5,6 +5,12 @@
 Public Interface IRadiator
 
     ''' <summary>
+    ''' Raised when the value of the <see cref="IsOn" /> property changes.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Event IsOnChanged As EventHandler
+
+    ''' <summary>
     ''' Determines whether the radiator is currently turned on.
     ''' </summary>
     ReadOnly Property IsOn() As Boolean

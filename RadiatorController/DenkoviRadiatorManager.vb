@@ -7,6 +7,7 @@ Public Class DenkoviRadiatorManager
     Private mBoard As DenkoviRelayBoard
     Private mLastStatus As RelayOption
     Private mThrottle As New Throttle(TimeSpan.FromSeconds(2))
+    Private mRadiators As New Dictionary(Of Integer, DenkoviRadiator)()
 
     Public Sub New(ByVal board As DenkoviRelayBoard)
         mBoard = board
@@ -14,11 +15,22 @@ Public Class DenkoviRadiatorManager
     End Sub
 
     Public Function GetRadiator(index As Integer) As IRadiator Implements IIndexedRadiatorManager.GetRadiator
-        Return GetRadiator(RelayOptionHelper.FromIndex(index))
+        Return GetRadiatorCore(RelayOptionHelper.FromIndex(index), index)
     End Function
 
     Public Function GetRadiator(ByVal relay As RelayOption) As DenkoviRadiator
-        Return New DenkoviRadiator(Me, relay, mLastStatus.HasFlag(relay))
+        Return GetRadiatorCore(relay, RelayOptionHelper.ToIndex(relay))
+    End Function
+
+    Private Function GetRadiatorCore(ByVal relay As RelayOption, ByVal index As Integer) As DenkoviRadiator
+        Dim radiator As DenkoviRadiator = Nothing
+
+        If Not mRadiators.TryGetValue(index, radiator) Then
+            radiator = New DenkoviRadiator(Me, relay, mLastStatus.HasFlag(relay))
+            mRadiators.Add(index, radiator)
+        End If
+
+        Return radiator
     End Function
 
     Friend Sub EnsureOn(radiator As DenkoviRadiator)
@@ -59,5 +71,10 @@ Public Class DenkoviRadiatorManager
 
     Private Sub UpdateBoardStatus()
         mLastStatus = mBoard.GetStatus()
+
+        For Each radiator In mRadiators.Values
+            Dim isOn = mLastStatus.HasFlag(radiator.RelayId)
+            radiator.UpdateStatus(isOn)
+        Next
     End Sub
 End Class

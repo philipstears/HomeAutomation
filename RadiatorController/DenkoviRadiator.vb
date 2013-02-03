@@ -5,6 +5,8 @@ Imports RelayController.Support
 Public Class DenkoviRadiator
     Implements IRadiator
 
+    Public Event IsOnChanged(sender As Object, e As EventArgs) Implements IRadiator.IsOnChanged
+
     Private mManager As DenkoviRadiatorManager
     Private mRelayId As RelayOption
     Private mIsOn As Boolean
@@ -28,12 +30,19 @@ Public Class DenkoviRadiator
     End Property
 
     Public Sub EnsureOn() Implements IRadiator.EnsureOn
-        mIsOn = True
         mManager.EnsureOn(Me)
     End Sub
 
     Public Sub EnsureOff() Implements IRadiator.EnsureOff
-        mIsOn = False
         mManager.EnsureOff(Me)
+    End Sub
+
+    Friend Sub UpdateStatus(ByVal isOn As Boolean)
+        If isOn = mIsOn Then
+            Return
+        End If
+
+        mIsOn = isOn
+        RaiseEvent IsOnChanged(Me, EventArgs.Empty)
     End Sub
 End Class
