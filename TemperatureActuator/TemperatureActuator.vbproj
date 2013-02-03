@@ -21,7 +21,9 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>TemperatureActuator.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,7 +33,9 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>TemperatureActuator.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>
+    </NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -40,7 +44,7 @@
     <OptionCompare>Binary</OptionCompare>
   </PropertyGroup>
   <PropertyGroup>
-    <OptionStrict>Off</OptionStrict>
+    <OptionStrict>On</OptionStrict>
   </PropertyGroup>
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
@@ -118,6 +122,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RadiatorController\RadiatorController.vbproj">
+      <Project>{2eced190-7862-4674-9001-16da37176d42}</Project>
+      <Name>RadiatorController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayController\RelayController.vbproj">
+      <Project>{bf47e992-b494-41cd-9ea5-421936d600da}</Project>
+      <Name>RelayController</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TemperatureDataCore\TemperatureDataCore.vbproj">
       <Project>{ab44ed60-996b-4c26-a169-230f25dd8037}</Project>
       <Name>TemperatureDataCore</Name>

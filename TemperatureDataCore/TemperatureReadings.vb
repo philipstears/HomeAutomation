@@ -17,7 +17,7 @@
         End Get
     End Property
 
-    Public ReadOnly Property Temperature As Integer
+    Public ReadOnly Property Temperature As Double
         Get
             Return GetTemperature()
         End Get

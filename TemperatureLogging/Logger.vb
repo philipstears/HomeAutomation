@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports TemperatureDataCore
 
 Public Class Logger
     Private mConnectionString As String

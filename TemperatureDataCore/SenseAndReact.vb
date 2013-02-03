@@ -9,7 +9,6 @@ Public Class SenseAndReact
 
     Private mDeviceList As New Dictionary(Of Integer, DeviceDetail)
 
-    Private DayString As String = DateTime.UtcNow.DayOfWeek.ToString
 
     Public Sub New(connectionString As String, temperatureTableName As String, deviceTableName As String, devices As Devices)
 
@@ -22,17 +21,24 @@ Public Class SenseAndReact
     End Sub
 
     Public Function GetDeviceExpectedTemperatures() As Dictionary(Of Integer, Double)
+        Return GetDeviceExpectedTemperatures(DateTime.UtcNow)
+    End Function
 
-        Dim mDeviceTemperatures As New Dictionary(Of Integer, Double)
+    Public Function GetDeviceExpectedTemperatures(ByVal forWhen As DateTime) As Dictionary(Of Integer, Double)
 
-        For Each device In mDeviceList
+        ' NOTE: Should be using current time-zone for this, not UTC
+        Dim dayName As String = DateTime.Now.DayOfWeek.ToString()
+        Dim deviceTemperature As New Dictionary(Of Integer, Double)
 
-            ' Get the device entity ids from the database
-            Using connection = New SqlConnection(mConnectionString)
-                connection.Open()
+        Using connection = New SqlConnection(mConnectionString)
+            connection.Open()
+
+            For Each device In mDeviceList
+
+                ' Get the device entity ids from the database
                 Using command = connection.CreateCommand()
                     command.CommandText = "SELECT [TimeID], [Relay], [Day], [NightStart], [MorningStart], [AfternoonStart], [EveningStart], [NightTemp], [MorningTemp], [AfternoonTemp], [EveningTemp] " &
-                                            "FROM [HomeAutomationData].[dbo].[MasterTimes] WHERE [Day] = '" & DayString & "' AND Relay = " & device.Value.Relay
+                                            "FROM [HomeAutomationData].[dbo].[MasterTimes] WHERE [Day] = '" & dayName & "' AND Relay = " & device.Value.Relay
 
                     Using reader = command.ExecuteReader()
                         While reader.Read()
@@ -60,16 +66,15 @@ Public Class SenseAndReact
                             tempSetting.AddSetting(setting3)
                             tempSetting.AddSetting(setting4)
 
-                            mDeviceTemperatures.Add(device.Key, tempSetting.GetDesiredTemperature(DateTime.UtcNow()))
+                            deviceTemperature.Add(device.Key, tempSetting.GetDesiredTemperature(DateTime.UtcNow()))
 
                         End While
                     End Using
                 End Using
-            End Using
-        Next
+            Next
+        End Using
 
-        Return mDeviceTemperatures
-
+        Return deviceTemperature
     End Function
 
 End Class
