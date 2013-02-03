@@ -26,24 +26,34 @@ Public Class TemperatureReader
         Dim startDate As DateTime = mLastReading
         Dim endDate As DateTime = DateTime.UtcNow
 
-        For Each device As TemperatureServerLib.DeviceInfo In mTemp.GetDevices()
+        Try
 
-            If mDeviceLatest.ContainsKey(device.idDevice) Then
+            For Each device As TemperatureServerLib.DeviceInfo In mTemp.GetDevices()
 
-                Dim deviceStart As DateTime
+                If mDeviceLatest.ContainsKey(device.idDevice) Then
 
-                If Not mDeviceLatest.TryGetValue(device.idDevice, deviceStart) Then
+                    Dim deviceStart As DateTime
 
-                    deviceStart = startDate
+                    If Not mDeviceLatest.TryGetValue(device.idDevice, deviceStart) Then
+
+                        deviceStart = startDate
+                    End If
+
+                    DoReadDevice(device, deviceStart, endDate)
+
+                    mDeviceLatest(device.idDevice) = endDate
                 End If
+            Next
 
-                DoReadDevice(device, deviceStart, endDate)
+            mLastReading = startDate
 
-                mDeviceLatest(device.idDevice) = endDate
-            End If
-        Next
+        Catch ex As Exception
 
-        mLastReading = startDate
+            Debug.Fail(ex.ToString())
+
+        End Try
+
+        mTimer.Change(Every15Seconds, NoPeriodicSignalling)
     End Sub
 
     Private Sub DoReadDevice(ByVal device As TemperatureServerLib.DeviceInfo, ByVal startDate As DateTime, ByVal endDate As DateTime)
@@ -61,7 +71,5 @@ Public Class TemperatureReader
 
             RaiseEvent ReadingObserved(Me, New TemperatureDataReceivedEventArgs(device.idDevice, device.Name, logDate, DateTime.UtcNow, value))
         Next
-
-        mTimer.Change(Every15Seconds, NoPeriodicSignalling)
     End Sub
 End Class
