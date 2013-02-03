@@ -63,7 +63,10 @@ Public Class ActuatorModel
 
     Private Sub LoadSettings()
         For Each device In mRegisteredDevices.DeviceListing.Values
-            Dim model As New SensorAndRelayModel(device, mRadiatorManager.GetRadiator(device.Relay))
+
+            ' DB/UI is 1-based, but radiator manager is 0-based
+            Dim radiator = mRadiatorManager.GetRadiator(device.Relay - 1)
+            Dim model As New SensorAndRelayModel(device, radiator)
             mDevicesById(device.DeviceID) = model
             mDevicesForBinding.Add(model)
         Next
