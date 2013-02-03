@@ -2,10 +2,12 @@
 Imports TemperatureDataCore
 
 Public Class MainForm
+    Implements ILog
 
     Private mConnectionString As String
     Private mTemperatureTableName As String
     Private mDeviceTableName As String
+    Private WithEvents mReader As TemperatureReader
     Private mTemperatureAgregator As TemperatureAggregater
 
     Private mDeviceLatest As New Dictionary(Of Integer, DateTime)
@@ -14,13 +16,15 @@ Public Class MainForm
 
     Private mRequiredTemperatures As SenseAndReact
 
-    Public Sub New(connectionString As String, temperatureTableName As String, deviceTableName As String, devices As Devices, requiredTemperatures As SenseAndReact)
+    Public Sub New(connectionString As String, temperatureTableName As String, deviceTableName As String, reader As TemperatureReader, devices As Devices, requiredTemperatures As SenseAndReact)
 
         mConnectionString = connectionString
         mDeviceTableName = deviceTableName
         mTemperatureTableName = temperatureTableName
 
         InitializeComponent()
+
+        mReader = reader
 
         mDeviceList = devices.DeviceListing
 
@@ -30,17 +34,17 @@ Public Class MainForm
 
     End Sub
 
-    Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
+    Private Sub UpdateGraphButton_Click(sender As System.Object, e As System.EventArgs) Handles UpdateGraphButton.Click
 
         Dim currentTemperatures = mTemperatureAgregator.GetDeviceTemperatures()
 
         Dim requiredTemps As Dictionary(Of Integer, Double)
 
-        Label1.Text = ""
+        StatusLabel.Text = ""
 
         requiredTemps = mRequiredTemperatures.GetDeviceExpectedTemperatures
 
-        Chart1.Series.Item(0).Points.Clear()
+        ReadingGraph.Series.Item(0).Points.Clear()
 
         Dim bar As Integer = 1
 
@@ -58,7 +62,7 @@ Public Class MainForm
 
             currentTemp.SetValueXY(bar, tempPair.Temperature)
 
-            Chart1.Series.Item(0).Points.Add(currentTemp)
+            ReadingGraph.Series.Item(0).Points.Add(currentTemp)
 
             bar = bar + 1
 
@@ -76,14 +80,28 @@ Public Class MainForm
 
             desiredTemp.Color = Color.Red
 
-            Chart1.Series.Item(0).Points.Add(desiredTemp)
+            ReadingGraph.Series.Item(0).Points.Add(desiredTemp)
 
             bar = bar + 1
 
             Dim shouldBeOn As Boolean = desiredTemperature > tempPair.Temperature
 
-            Label1.Text = Label1.Text & vbCrLf & Devicedata.Location & " (Current=" & Format(tempPair.Temperature, "0.0") & " : Desired=" & desiredTemperature & ") Switch " & IIf(shouldBeOn, "On", "Off")
+            StatusLabel.Text = StatusLabel.Text & vbCrLf & Devicedata.Location & " (Current=" & Format(tempPair.Temperature, "0.0") & " : Desired=" & desiredTemperature & ") Switch " & IIf(shouldBeOn, "On", "Off")
 
         Next
+    End Sub
+
+    Public Sub AddEntry(format As String, ParamArray args() As Object) Implements ILog.AddEntry
+        If Me.InvokeRequired Then
+            Me.Invoke(Sub() AddEntry(format, args))
+            Return
+        End If
+
+        Dim description = String.Format(format, args)
+        Me.EventList.Items.Insert(0, New ListViewItem(New String() {DateTime.Now.ToString(), description}))
+    End Sub
+
+    Private Sub mReader_ReadingObserved(sender As Object, e As TemperatureDataReceivedEventArgs) Handles mReader.ReadingObserved
+        AddEntry("{0} (#{1}) {2} {3} {4}°C", e.SensorDescription, e.SensorId, e.LogDateTime, e.ReceivedDateTime, e.ReadingInDegrees)
     End Sub
 End Class

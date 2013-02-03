@@ -14,6 +14,6 @@ Public Class Program
         Dim reader = New TemperatureReader(devices)
         Dim logger = New Logger(connectionString, temperatureTableName, reader)
 
-        Application.Run(New MainForm(connectionString, temperatureTableName, deviceTableName, devices, requiredTemperatures))
+        Application.Run(New MainForm(connectionString, temperatureTableName, deviceTableName, reader, devices, requiredTemperatures))
     End Sub
 End Class
