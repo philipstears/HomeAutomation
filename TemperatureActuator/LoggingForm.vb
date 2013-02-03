@@ -7,13 +7,7 @@ Public Class LoggingForm
     Private mAggregator As TemperatureAggregater
 
     Private Sub LoggingForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        mDevices = New Devices(My.MySettings.Default.Database, My.MySettings.Default.TemperatureTable, My.MySettings.Default.DeviceTable)
-        mSettingsReader = New SenseAndReact(My.MySettings.Default.Database, My.MySettings.Default.TemperatureTable, My.MySettings.Default.DeviceTable, mDevices)
-        mAggregator = New TemperatureAggregater(My.MySettings.Default.Database, My.MySettings.Default.TemperatureTable, My.MySettings.Default.DeviceTable)
 
-        LoadSettings()
-        UpdateDesiredReadings()
-        UpdateActualReadings()
     End Sub
 
     Private Sub LoadSettings()

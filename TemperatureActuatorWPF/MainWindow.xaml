@@ -1,0 +1,26 @@
+﻿<Window x:Class="MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:this="clr-namespace:TemperatureActuatorWPF"
+    Title="MainWindow" Height="350" Width="525" DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+    <Grid>
+        <ListView ItemsSource="{Binding Devices}">
+            <ListView.Resources>
+                <this:NullableTemperatureConverter x:Key="NullableTemperatureConverter" />
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding Location}">Location</GridViewColumn>
+                        <GridViewColumn Width="80" DisplayMemberBinding="{Binding SensorId}">Sensor #</GridViewColumn>
+                        <GridViewColumn Width="80" DisplayMemberBinding="{Binding RelayIndex}">Relay #</GridViewColumn>
+                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding CurrentTemperature, Converter={StaticResource NullableTemperatureConverter}}">Current Temperature</GridViewColumn>
+                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding DesiredTemperature, Converter={StaticResource NullableTemperatureConverter}}">Desired Temperature</GridViewColumn>
+                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding CurrentRelayStatus}">Current Relay Status</GridViewColumn>
+                        <GridViewColumn Width="120" DisplayMemberBinding="{Binding DesiredRelayStatus}">Desired Relay Status</GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>
