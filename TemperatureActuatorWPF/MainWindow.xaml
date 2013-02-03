@@ -4,7 +4,7 @@
     xmlns:this="clr-namespace:TemperatureActuatorWPF"
     Title="MainWindow" Height="350" Width="525" DataContext="{Binding Path=Model, RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
-        <ListView ItemsSource="{Binding Devices}">
+        <ListView ItemsSource="{Binding Devices}" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}">
             <ListView.Resources>
                 <this:NullableTemperatureConverter x:Key="NullableTemperatureConverter" />
             </ListView.Resources>
@@ -21,6 +21,15 @@
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>             
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsControlled}" Value="false">
+                            <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </Window>
