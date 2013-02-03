@@ -33,7 +33,7 @@ Public Class SensorAndRelayModel
     End Sub
 
     Private Sub LoadRadiatorStatus()
-        mCurrentRelayStatus = If(mRadiator.IsOn, RelayStatus.On, RelayStatus.Off)
+        CurrentRelayStatus = If(mRadiator.IsOn, RelayStatus.On, RelayStatus.Off)
     End Sub
 
     Public ReadOnly Property Radiator As IRadiator

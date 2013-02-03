@@ -78,7 +78,12 @@ Public Class ActuatorModel
         For Each device In mDevicesForBinding
             If device.DesiredRelayStatus.HasValue AndAlso device.DesiredRelayStatus <> device.CurrentRelayStatus Then
                 Dim shouldBeOn = device.DesiredRelayStatus.Value = RelayController.RelayStatus.On
-                device.Radiator.EnsureOn()
+
+                If shouldBeOn Then
+                    device.Radiator.EnsureOn()
+                Else
+                    device.Radiator.EnsureOff()
+                End If
             End If
         Next
     End Sub
