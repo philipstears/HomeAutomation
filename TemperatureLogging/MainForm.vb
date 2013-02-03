@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Forms.DataVisualization.Charting
 Imports TemperatureDataCore
+Imports System.Collections.Concurrent
 
 Public Class MainForm
     Implements ILog
@@ -34,7 +35,12 @@ Public Class MainForm
 
     End Sub
 
-    Private Sub UpdateGraphButton_Click(sender As System.Object, e As System.EventArgs) Handles UpdateGraphButton.Click
+    Private Sub UpdateTimer_Tick(sender As Object, e As EventArgs) Handles UpdateTimer.Tick
+        AddPendingItems()
+        UpdateGraph()
+    End Sub
+
+    Private Sub UpdateGraph()
 
         Dim currentTemperatures = mTemperatureAgregator.GetDeviceTemperatures()
 
@@ -93,22 +99,35 @@ Public Class MainForm
 
     Private Const MAX_ENTRIES As Integer = 5000
     Private Const MAX_ENTRY_INDEX As Integer = MAX_ENTRIES - 1
+    Private mPendingItems As New ConcurrentQueue(Of ListViewItem)()
 
     Public Sub AddEntry(format As String, ParamArray args() As Object) Implements ILog.AddEntry
-        If Me.InvokeRequired Then
-            Me.Invoke(Sub() AddEntry(format, args))
-            Return
-        End If
-
-        If Me.EventList.Items.Count = MAX_ENTRIES Then
-            Me.EventList.Items.RemoveAt(MAX_ENTRY_INDEX)
-        End If
-
-        Dim description = String.Format(format, args)
-        Me.EventList.Items.Insert(0, New ListViewItem(New String() {DateTime.Now.ToString(), description}))
+        mPendingItems.Enqueue(New ListViewItem(New String() {DateTime.Now.ToString(), String.Format(format, args)}))
     End Sub
 
     Private Sub mReader_ReadingObserved(sender As Object, e As TemperatureDataReceivedEventArgs) Handles mReader.ReadingObserved
         AddEntry("{0} (#{1}) {2} {3} {4}°C", e.SensorDescription, e.SensorId, e.LogDateTime, e.ReceivedDateTime, e.ReadingInDegrees)
+    End Sub
+
+    Private Sub AddPendingItems()
+        Dim currentItem As ListViewItem = Nothing
+        Dim modified As Boolean = False
+
+        While mPendingItems.TryDequeue(currentItem)
+            If Not modified Then
+                EventList.BeginUpdate()
+                modified = True
+            End If
+
+            If Me.EventList.Items.Count = MAX_ENTRIES Then
+                Me.EventList.Items.RemoveAt(MAX_ENTRY_INDEX)
+            End If
+
+            EventList.Items.Insert(0, currentItem)
+        End While
+
+        If modified Then
+            EventList.EndUpdate()
+        End If
     End Sub
 End Class

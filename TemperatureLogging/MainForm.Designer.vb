@@ -22,6 +22,7 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Dim DataPoint4 As System.Windows.Forms.DataVisualization.Charting.DataPoint = New System.Windows.Forms.DataVisualization.Charting.DataPoint(0.0R, 10.0R)
@@ -29,12 +30,12 @@ Partial Class MainForm
         Dim DataPoint6 As System.Windows.Forms.DataVisualization.Charting.DataPoint = New System.Windows.Forms.DataVisualization.Charting.DataPoint(0.0R, 0.0R)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.ReadingGraph = New System.Windows.Forms.DataVisualization.Charting.Chart()
-        Me.UpdateGraphButton = New System.Windows.Forms.Button()
         Me.StatusLabel = New System.Windows.Forms.Label()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.EventList = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.UpdateTimer = New System.Windows.Forms.Timer(Me.components)
         CType(Me.ReadingGraph, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -61,24 +62,14 @@ Partial Class MainForm
         Series2.Points.Add(DataPoint5)
         Series2.Points.Add(DataPoint6)
         Me.ReadingGraph.Series.Add(Series2)
-        Me.ReadingGraph.Size = New System.Drawing.Size(329, 280)
+        Me.ReadingGraph.Size = New System.Drawing.Size(329, 327)
         Me.ReadingGraph.TabIndex = 1
         Me.ReadingGraph.Text = "Chart1"
-        '
-        'UpdateGraphButton
-        '
-        Me.UpdateGraphButton.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.UpdateGraphButton.Location = New System.Drawing.Point(0, 503)
-        Me.UpdateGraphButton.Name = "UpdateGraphButton"
-        Me.UpdateGraphButton.Size = New System.Drawing.Size(329, 47)
-        Me.UpdateGraphButton.TabIndex = 2
-        Me.UpdateGraphButton.Text = "Update Graph"
-        Me.UpdateGraphButton.UseVisualStyleBackColor = True
         '
         'StatusLabel
         '
         Me.StatusLabel.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.StatusLabel.Location = New System.Drawing.Point(0, 280)
+        Me.StatusLabel.Location = New System.Drawing.Point(0, 327)
         Me.StatusLabel.Name = "StatusLabel"
         Me.StatusLabel.Size = New System.Drawing.Size(329, 223)
         Me.StatusLabel.TabIndex = 0
@@ -93,7 +84,6 @@ Partial Class MainForm
         '
         Me.SplitContainer1.Panel1.Controls.Add(Me.ReadingGraph)
         Me.SplitContainer1.Panel1.Controls.Add(Me.StatusLabel)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.UpdateGraphButton)
         '
         'SplitContainer1.Panel2
         '
@@ -123,6 +113,11 @@ Partial Class MainForm
         Me.ColumnHeader2.Text = "Event Description"
         Me.ColumnHeader2.Width = 300
         '
+        'UpdateTimer
+        '
+        Me.UpdateTimer.Enabled = True
+        Me.UpdateTimer.Interval = 2000
+        '
         'MainForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -150,10 +145,10 @@ Partial Class MainForm
 
     End Sub
     Friend WithEvents ReadingGraph As System.Windows.Forms.DataVisualization.Charting.Chart
-    Friend WithEvents UpdateGraphButton As System.Windows.Forms.Button
     Friend WithEvents StatusLabel As System.Windows.Forms.Label
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents EventList As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents UpdateTimer As System.Windows.Forms.Timer
 End Class
