@@ -1,8 +1,10 @@
 ﻿Imports TemperatureDataCore
 Imports System.Collections.ObjectModel
+Imports RadiatorController
 
 Class MainWindow
-    Private mActuatorModel As New ActuatorModel()
+    Private mRadiatorManager As New FakeRadiatorManager()
+    Private mActuatorModel As New ActuatorModel(mRadiatorManager)
 
     Public Sub New()
 

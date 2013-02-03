@@ -1,13 +1,15 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Threading
+Imports RadiatorController
 Imports TemperatureDataCore
 
 Public Class ActuatorModel
     Private mDevicesById As New Dictionary(Of Integer, SensorAndRelayModel)()
     Private mDevicesForBinding As New ObservableCollection(Of SensorAndRelayModel)()
 
-    Private mDevices As Devices
-    Private mSettingsReader As SenseAndReact
+    Private mRadiatorManager As IIndexedRadiatorManager
+    Private mRegisteredDevices As Devices
+    Private mTemperatureUserSettings As SenseAndReact
     Private mAggregator As TemperatureAggregater
 
     Private mTimer As New Timer(Sub()
@@ -15,9 +17,10 @@ Public Class ActuatorModel
                                     QueueNextUpdate()
                                 End Sub)
 
-    Public Sub New()
-        mDevices = New Devices(MySettings.Default.Database, MySettings.Default.TemperatureTable, MySettings.Default.DeviceTable)
-        mSettingsReader = New SenseAndReact(MySettings.Default.Database, MySettings.Default.TemperatureTable, MySettings.Default.DeviceTable, mDevices)
+    Public Sub New(ByVal radiatorManager As IIndexedRadiatorManager)
+        mRadiatorManager = radiatorManager
+        mRegisteredDevices = New Devices(MySettings.Default.Database, MySettings.Default.TemperatureTable, MySettings.Default.DeviceTable)
+        mTemperatureUserSettings = New SenseAndReact(MySettings.Default.Database, MySettings.Default.TemperatureTable, MySettings.Default.DeviceTable, mRegisteredDevices)
         mAggregator = New TemperatureAggregater(MySettings.Default.Database, MySettings.Default.TemperatureTable, MySettings.Default.DeviceTable)
         LoadSettings()
         QueueNextUpdate()
@@ -39,8 +42,8 @@ Public Class ActuatorModel
     End Sub
 
     Private Sub LoadSettings()
-        For Each device In mDevices.DeviceListing.Values
-            Dim model As New SensorAndRelayModel(device)
+        For Each device In mRegisteredDevices.DeviceListing.Values
+            Dim model As New SensorAndRelayModel(device, mRadiatorManager.GetRadiator(device.Relay))
             mDevicesById(device.DeviceID) = model
             mDevicesForBinding.Add(model)
         Next
@@ -59,7 +62,7 @@ Public Class ActuatorModel
     End Sub
 
     Private Sub UpdateDesiredReadings()
-        For Each reading In mSettingsReader.GetDeviceExpectedTemperatures()
+        For Each reading In mTemperatureUserSettings.GetDeviceExpectedTemperatures()
             Dim model As SensorAndRelayModel = Nothing
 
             If Not mDevicesById.TryGetValue(reading.Key, model) Then

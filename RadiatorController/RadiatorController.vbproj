@@ -78,8 +78,10 @@
     <Compile Include="DecisionHelper.vb" />
     <Compile Include="DenkoviRadiatorManager.vb" />
     <Compile Include="FakeRadiator.vb" />
+    <Compile Include="FakeRadiatorManager.vb" />
     <Compile Include="FakeSensor.vb" />
     <Compile Include="IRadiator.vb" />
+    <Compile Include="IIndexedRadiatorManager.vb" />
     <Compile Include="ITemperatureSensor.vb" />
     <Compile Include="KnownSensors.vb" />
     <Compile Include="Program.vb" />

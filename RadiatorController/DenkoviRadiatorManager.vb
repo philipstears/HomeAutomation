@@ -2,6 +2,8 @@ Imports RelayController
 Imports RelayController.Support
 
 Public Class DenkoviRadiatorManager
+    Implements IIndexedRadiatorManager
+
     Private mBoard As DenkoviRelayBoard
     Private mLastStatus As RelayOption
     Private mThrottle As New Throttle(TimeSpan.FromSeconds(2))
@@ -10,6 +12,10 @@ Public Class DenkoviRadiatorManager
         mBoard = board
         UpdateBoardStatus()
     End Sub
+
+    Public Function GetRadiator(index As Integer) As IRadiator Implements IIndexedRadiatorManager.GetRadiator
+        Return GetRadiator(RelayOptionHelper.FromIndex(index))
+    End Function
 
     Public Function GetRadiator(ByVal relay As RelayOption) As DenkoviRadiator
         Return New DenkoviRadiator(Me, relay, mLastStatus.HasFlag(relay))

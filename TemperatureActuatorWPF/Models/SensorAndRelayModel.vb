@@ -3,6 +3,8 @@ Imports RelayController
 Imports RadiatorController
 
 Public Class SensorAndRelayModel
+    Private WithEvents mRadiator As IRadiator
+
     Private mLocation As String
     Private mRelayIndex As Integer
     Private mSensorId As Integer
@@ -20,11 +22,14 @@ Public Class SensorAndRelayModel
     Public Event CurrentRelayStatusChanged As EventHandler
     Public Event DesiredRelayStatusChanged As EventHandler
 
-    Public Sub New(ByVal details As DeviceDetail)
+    Public Sub New(ByVal details As DeviceDetail, ByVal radiator As IRadiator)
         mLocation = details.Location
         mRelayIndex = details.Relay
         mSensorId = details.DeviceID
         mIsControlled = details.ControlLocation
+
+        mRadiator = radiator
+        mCurrentRelayStatus = If(radiator.IsOn, RelayStatus.On, RelayStatus.Off)
     End Sub
 
     Public ReadOnly Property Location As String
