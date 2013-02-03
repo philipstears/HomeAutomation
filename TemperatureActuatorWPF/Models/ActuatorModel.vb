@@ -2,6 +2,8 @@
 Imports System.Threading
 Imports RadiatorController
 Imports TemperatureDataCore
+Imports System.IO.Ports
+Imports RelayController
 
 Public Class ActuatorModel
     Private mDevicesById As New Dictionary(Of Integer, SensorAndRelayModel)()
@@ -17,14 +19,31 @@ Public Class ActuatorModel
                                     QueueNextUpdate()
                                 End Sub)
 
-    Public Sub New(ByVal radiatorManager As IIndexedRadiatorManager)
-        mRadiatorManager = radiatorManager
+    Public Sub New()
+        mRadiatorManager = GetRadiatorManager()
         mRegisteredDevices = New Devices(MySettings.Default.Database, MySettings.Default.TemperatureTable, MySettings.Default.DeviceTable)
         mTemperatureUserSettings = New SenseAndReact(MySettings.Default.Database, MySettings.Default.TemperatureTable, MySettings.Default.DeviceTable, mRegisteredDevices)
         mAggregator = New TemperatureAggregater(MySettings.Default.Database, MySettings.Default.TemperatureTable, MySettings.Default.DeviceTable)
         LoadSettings()
         QueueNextUpdate()
     End Sub
+
+    Private Shared Function GetRadiatorManager() As IIndexedRadiatorManager
+        Dim name = MySettings.Default.RadiatorComPort
+
+        If Not name.Equals("FAKE", StringComparison.OrdinalIgnoreCase) Then
+            Try
+                Dim port As New SerialPort(name)
+                port.Open()
+
+                Return New DenkoviRadiatorManager(New DenkoviRelayBoard(port))
+            Catch ex As Exception
+                MessageBox.Show(String.Format("Couldn't connect to the Denkovi Relay Board using the specified communication port {0}. A fake radiator controller will be used instead. {1}", name, ex.Message), "Radiator Manager", MessageBoxButton.OK, MessageBoxImage.Warning)
+            End Try
+        End If
+
+        Return New FakeRadiatorManager()
+    End Function
 
     Public ReadOnly Property Devices As ObservableCollection(Of SensorAndRelayModel)
         Get

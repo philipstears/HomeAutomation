@@ -3,8 +3,7 @@ Imports System.Collections.ObjectModel
 Imports RadiatorController
 
 Class MainWindow
-    Private mRadiatorManager As New FakeRadiatorManager()
-    Private mActuatorModel As New ActuatorModel(mRadiatorManager)
+    Private mActuatorModel As New ActuatorModel()
 
     Public Sub New()
 

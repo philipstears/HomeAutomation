@@ -55,17 +55,6 @@ Partial Friend NotInheritable Class MySettings
     
     <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("Data Source=BROOKWOOD1\SQLEXPRESS;Initial Catalog=HomeAutomationData;Integrated S"& _ 
-        "ecurity=True;Connect Timeout=30;")>  _
-    Public ReadOnly Property Database() As String
-        Get
-            Return CType(Me("Database"),String)
-        End Get
-    End Property
-    
-    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Configuration.DefaultSettingValueAttribute("Temperature")>  _
     Public ReadOnly Property TemperatureTable() As String
         Get
@@ -88,6 +77,26 @@ Partial Friend NotInheritable Class MySettings
     Public ReadOnly Property MasterTimesTable() As String
         Get
             Return CType(Me("MasterTimesTable"),String)
+        End Get
+    End Property
+    
+    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("Data Source=BROOKWOOD1\SQLEXPRESS;Initial Catalog=HomeAutomationData;Integrated S"& _ 
+        "ecurity=True;Connect Timeout=30;")>  _
+    Public ReadOnly Property Database() As String
+        Get
+            Return CType(Me("Database"),String)
+        End Get
+    End Property
+    
+    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("FAKE")>  _
+    Public ReadOnly Property RadiatorComPort() As String
+        Get
+            Return CType(Me("RadiatorComPort"),String)
         End Get
     End Property
 End Class
