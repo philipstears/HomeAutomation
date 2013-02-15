@@ -197,7 +197,7 @@ Partial Class Form1
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold)
-        Me.Label8.Location = New System.Drawing.Point(341, 451)
+        Me.Label8.Location = New System.Drawing.Point(38, 382)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(132, 24)
         Me.Label8.TabIndex = 17
@@ -205,7 +205,7 @@ Partial Class Form1
         '
         'TimeTrack
         '
-        Me.TimeTrack.Location = New System.Drawing.Point(479, 479)
+        Me.TimeTrack.Location = New System.Drawing.Point(176, 410)
         Me.TimeTrack.Maximum = 1440
         Me.TimeTrack.Name = "TimeTrack"
         Me.TimeTrack.Size = New System.Drawing.Size(431, 45)
@@ -215,7 +215,7 @@ Partial Class Form1
         '
         Me.TimeLabel.AutoSize = True
         Me.TimeLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold)
-        Me.TimeLabel.Location = New System.Drawing.Point(479, 451)
+        Me.TimeLabel.Location = New System.Drawing.Point(176, 382)
         Me.TimeLabel.Name = "TimeLabel"
         Me.TimeLabel.Size = New System.Drawing.Size(72, 24)
         Me.TimeLabel.TabIndex = 19
@@ -225,7 +225,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(944, 575)
+        Me.ClientSize = New System.Drawing.Size(672, 471)
         Me.Controls.Add(Me.TimeLabel)
         Me.Controls.Add(Me.TimeTrack)
         Me.Controls.Add(Me.Label8)

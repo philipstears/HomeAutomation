@@ -107,6 +107,9 @@ Public Class MainForm
 
     Private Sub mReader_ReadingObserved(sender As Object, e As TemperatureDataReceivedEventArgs) Handles mReader.ReadingObserved
         AddEntry("{0} (#{1}) {2} {3} {4}°C", e.SensorDescription, e.SensorId, e.LogDateTime, e.ReceivedDateTime, e.ReadingInDegrees)
+
+        ' update the top list with the data from this reading
+        UpdateLatestTimesAndTemps(sender, e)
     End Sub
 
     Private Sub AddPendingItems()
@@ -129,5 +132,44 @@ Public Class MainForm
         If modified Then
             EventList.EndUpdate()
         End If
+    End Sub
+
+    Private Sub UpdateLatestTimesAndTemps(sender As Object, e As TemperatureDataReceivedEventArgs)
+
+        ' Get the relay number from the devices list
+
+        Dim relayNumber As Integer = 0
+        Dim device As TemperatureDataCore.DeviceDetail = Nothing
+
+        ' we need the relay number for this device so that we can update the correct row in the list
+        If mDeviceList.TryGetValue(e.SensorId, device) Then
+
+            ' we have one - get the relay number
+            relayNumber = device.Relay
+
+        End If
+
+        ' make sure there is a relay number - its one based, not zero, so if its zero, it wasn't found.
+        If relayNumber > 0 Then
+
+            ' go down the list looking for the correct relay
+            For Each itemInList As ListViewItem In LatestEvents.Items
+
+                ' see if it matches the number - probably should have a better way of comparing
+                If itemInList.Text = relayNumber.ToString Then
+
+                    ' update the 3 items in the row
+                    itemInList.SubItems(1).Text = e.SensorDescription
+                    itemInList.SubItems(2).Text = e.LogDateTime.ToString
+                    itemInList.SubItems(3).Text = e.ReadingInDegrees.ToString
+
+                    ' we found it, quit
+                    Exit For
+
+                End If
+
+            Next
+        End If
+
     End Sub
 End Class
